@@ -9,8 +9,8 @@ export const schema = Yup.object().shape({
 });
 
 export const initialValues = schema.cast({
-  email: "test@example.com",
-  password: "password",
+  email: "",
+  password: "",
 });
 
 export type SchemaValues = Yup.InferType<typeof schema>;

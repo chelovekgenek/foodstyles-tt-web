@@ -1,5 +1,5 @@
 import { createSlice } from "@reduxjs/toolkit";
-import { createUser, login, rehydrate } from "./auth.thunk";
+import { createUser, login, logout, rehydrate } from "./auth.thunk";
 
 export type AuthState = {
   authenticated: boolean;
@@ -16,13 +16,7 @@ const initialState: AuthState = {
 export const authSlice = createSlice({
   name: "auth",
   initialState,
-  reducers: {
-    logout: (state) => {
-      state.status = initialState.status;
-      state.authenticated = initialState.authenticated;
-      state.accessToken = initialState.accessToken;
-    },
-  },
+  reducers: {},
   extraReducers: (builder) => {
     builder
       .addCase(login.pending, (state) => {
@@ -36,6 +30,12 @@ export const authSlice = createSlice({
       .addCase(login.rejected, (state) => {
         state.status = "failed";
       });
+
+    builder.addCase(logout.fulfilled, (state) => {
+      state.status = initialState.status;
+      state.authenticated = initialState.authenticated;
+      state.accessToken = initialState.accessToken;
+    });
 
     builder
       .addCase(createUser.pending, (state) => {
@@ -57,6 +57,7 @@ export const authSlice = createSlice({
   },
 });
 
-export const { logout } = authSlice.actions;
+// export const {} = authSlice.actions;
+export {};
 
 export default authSlice.reducer;

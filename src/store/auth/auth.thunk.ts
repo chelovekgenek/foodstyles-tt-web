@@ -11,6 +11,10 @@ import {
   User,
 } from "./auth.type";
 
+export const logout = createAsyncThunk("auth/logout", async () => {
+  localStorage.removeItem(StorageKey.TOKEN);
+});
+
 export const login = createAsyncThunk(
   "auth/login",
   async (payload: LoginPayload, { dispatch }): Promise<string | null> => {
