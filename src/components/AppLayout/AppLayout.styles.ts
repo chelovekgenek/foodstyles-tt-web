@@ -18,6 +18,12 @@ export const Logo = styled.img``;
 
 export const Title = styled.h3`
   font-size: 22px;
-  font-family: "bold";
+  font-weight: "bold";
   margin: 25px 0 0;
+`;
+
+export const Subtitle = styled.p`
+  font-size: 16px;
+  margin: 6px 0 0;
+  color: #a1a4ad;
 `;

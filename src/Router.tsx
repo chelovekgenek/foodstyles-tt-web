@@ -1,10 +1,10 @@
 import { RouterProvider, createBrowserRouter } from "react-router-dom";
-import { Root } from "./scenes";
+import { SignUp } from "./scenes";
 
 const router = createBrowserRouter([
   {
     path: "/",
-    element: <Root />,
+    element: <SignUp />,
     index: true,
   },
 ]);
