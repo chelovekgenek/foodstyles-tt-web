@@ -1,5 +1,5 @@
 import { createSlice } from "@reduxjs/toolkit";
-import { createUser, login } from "./auth.thunk";
+import { createUser, login, rehydrate } from "./auth.thunk";
 
 export type AuthState = {
   authenticated: boolean;
@@ -47,6 +47,13 @@ export const authSlice = createSlice({
       .addCase(createUser.rejected, (state) => {
         state.status = "failed";
       });
+
+    builder.addCase(rehydrate.fulfilled, (state, action) => {
+      if (action.payload) {
+        state.authenticated = true;
+        state.accessToken = action.payload;
+      }
+    });
   },
 });
 

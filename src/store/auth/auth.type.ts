@@ -4,6 +4,10 @@ export interface User {
   email: string;
 }
 
+export enum StorageKey {
+  TOKEN = "app_access-token",
+}
+
 export interface AuthPayload {
   accessToken: string;
 }

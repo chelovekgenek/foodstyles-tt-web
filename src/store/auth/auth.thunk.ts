@@ -7,6 +7,7 @@ import {
   AuthPayload,
   CreateUserPayload,
   LoginPayload,
+  StorageKey,
   User,
 } from "./auth.type";
 
@@ -23,6 +24,7 @@ export const login = createAsyncThunk(
       throw new Error("Unauthorized");
     }
     if (data) {
+      localStorage.setItem(StorageKey.TOKEN, data.loginUser.accessToken);
       dispatch(routerFeature.action.redirect(RoutePath.TODOS));
       setAuthToken(data.loginUser.accessToken);
       return data.loginUser.accessToken;
@@ -44,5 +46,21 @@ export const createUser = createAsyncThunk(
     }
 
     dispatch(routerFeature.action.redirect(RoutePath.LOG_IN));
+  }
+);
+
+export const rehydrate = createAsyncThunk(
+  "auth/rehydrate",
+  async (_, { dispatch }): Promise<string | null> => {
+    const token = localStorage.getItem(StorageKey.TOKEN);
+    if (token) {
+      setAuthToken(token);
+      setTimeout(() => {
+        dispatch(routerFeature.action.redirect(RoutePath.TODOS));
+      }, 0);
+      return token;
+    }
+
+    return null;
   }
 );
