@@ -1,7 +1,7 @@
-import { useCallback } from "react";
-import { Formik, Form, FormikConfig } from "formik";
-import { useAppDispatch } from "../store/hooks";
-import { action } from "../store/auth";
+import { useCallback, useEffect } from "react";
+import { FormikProvider, Form, FormikConfig, useFormik } from "formik";
+import { useAppDispatch, useAppSelector } from "../store/hooks";
+import { action, selector } from "../store/auth";
 import { AppLayout } from "../components/AppLayout";
 import { TextLink } from "../components/TextLink";
 import { Button, Input } from "../components/form";
@@ -12,6 +12,7 @@ type HandleSubmit = FormikConfig<SchemaValues>["onSubmit"];
 
 export const SignUp = (): JSX.Element => {
   const dispatch = useAppDispatch();
+  const status = useAppSelector(selector.getStatus);
 
   const handleSubmit = useCallback<HandleSubmit>(
     (values) => {
@@ -20,12 +21,20 @@ export const SignUp = (): JSX.Element => {
     [dispatch]
   );
 
+  const formik = useFormik({
+    initialValues: initialValues as SchemaValues,
+    validationSchema: schema,
+    onSubmit: handleSubmit,
+  });
+
+  useEffect(() => {
+    if (status === "failed") {
+      formik.setErrors({ email: "e", password: "e" });
+    }
+  }, [status, formik]);
+
   return (
-    <Formik
-      initialValues={initialValues as SchemaValues}
-      validationSchema={schema}
-      onSubmit={handleSubmit}
-    >
+    <FormikProvider value={formik}>
       <AppLayout
         title="Welcome!"
         subtitle="Sign up to start using Simpledo today."
@@ -40,6 +49,6 @@ export const SignUp = (): JSX.Element => {
           <Button>Sign Up</Button>
         </Form>
       </AppLayout>
-    </Formik>
+    </FormikProvider>
   );
 };

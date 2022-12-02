@@ -1,17 +1,14 @@
-import { login, createUser } from "./auth.thunk";
-import reducer, { logout } from "./auth.feature";
+import * as thunkActions from "./auth.thunk";
+import reducer, * as actions from "./auth.feature";
 import * as selectors from "./auth.selector";
 
-const action = {
-  login,
-  logout,
-  createUser,
+export const action = {
+  ...actions,
+  ...thunkActions,
 };
 
-const selector = {
+export const selector = {
   ...selectors,
 };
-
-export { action, selector };
 
 export default reducer;

@@ -2,12 +2,13 @@ import { ApolloClient, InMemoryCache, createHttpLink } from "@apollo/client";
 
 import config from "./config";
 
-const httpLink = createHttpLink({
+const baseHttpLinkOptions = {
   uri: config.apiUrl,
-});
+};
+
+const httpLink = createHttpLink(baseHttpLinkOptions);
 
 const gqlClient = new ApolloClient({
-  uri: config.apiUrl,
   cache: new InMemoryCache(),
   link: httpLink,
 });
@@ -15,7 +16,7 @@ const gqlClient = new ApolloClient({
 export const setAuthToken = (accessToken: string): void => {
   gqlClient.setLink(
     createHttpLink({
-      uri: config.apiUrl,
+      ...baseHttpLinkOptions,
       headers: {
         authorization: `Bearer ${accessToken}`,
       },

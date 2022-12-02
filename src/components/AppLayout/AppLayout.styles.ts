@@ -27,3 +27,15 @@ export const Subtitle = styled.p`
   margin: 6px 0 0;
   color: #a1a4ad;
 `;
+
+export const LogoutButton = styled.span`
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  font-size: 14px;
+  cursor: pointer;
+
+  :hover {
+    text-decoration: underline;
+  }
+`;
